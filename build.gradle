@@ -1,0 +1,44 @@
+plugins {
+    id 'java-library'
+    id 'io.qameta.allure' version '2.8.1'
+    id 'io.freefair.lombok' version '5.3.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def allureVersion = '2.16.1',
+    selenideVersion = '6.0.3',
+    junitVersion = '5.8.1',
+    aspectjweaverVersion = '1.9.7'
+
+allure {
+    version = allureVersion
+    autoconfigure = true
+    aspectjweaver = true
+    configuration = "testImplementation"
+    useJUnit5 {
+        version = allureVersion
+    }
+}
+
+dependencies {
+    testImplementation(
+            "org.aspectj:aspectjweaver:$aspectjweaverVersion",
+            "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly(
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+test {
+    useJUnitPlatform()
+}
