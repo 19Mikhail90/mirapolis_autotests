@@ -8,10 +8,10 @@ repositories {
     mavenCentral()
 }
 
-def allureVersion = '2.16.1',
-    selenideVersion = '6.0.3',
-    junitVersion = '5.8.1',
-    aspectjweaverVersion = '1.9.7'
+def allureVersion = "2.13.9",
+    selenideVersion = "5.22.2",
+    junitVersion = "5.7.2",
+    aspectjweaverVersion = "1.9.6"
 
 allure {
     version = allureVersion

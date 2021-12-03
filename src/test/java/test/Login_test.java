@@ -4,7 +4,9 @@ import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.*;
 import page.LoginPage;
 
-import static com.codeborne.selenide.Condition.text;
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -129,7 +131,7 @@ public class Login_test {
             $(".mira-default-login-page-link").click();
         });
         step("Проверяем страницу после перехода", () -> {
-            $(".info-title").shouldHave(text("Восстановление пароля"));
+            $(".info-title").shouldBe(visible, Duration.ofSeconds(15)).shouldHave(text("Восстановление пароля"));
         });
     }
 
@@ -177,11 +179,16 @@ public class Login_test {
             loginPage.passwordInput.setValue(validPass());
             $("[id=show_password]").click();
         });
-        step("Проверяем отображения пароля", () -> {
-            String Actual = $("[name=password]").getText();
-            String Expected = validPass();
-            Assertions.assertEquals(Expected, Actual);
+        step("Проверяем отображения пароля(цвета бордюра кнопки, по CSS атрибуту)", () -> {
+            String par = $("[id=show_password]").getCssValue("border");
+            Assertions.assertEquals( "1px solid rgb(125, 141, 145)", par);
         });
     }
-
+    @Test
+    @DisplayName("Отображение текста стартовой страницы")
+    void shouldVisibleStartPage() {
+        step("Проверка отображения текста стартовой страницы ", () -> {
+            $("[class=mira-page-login-right-side-content-title]").shouldBe(visible).shouldHave(exactText("Добро пожаловать в систему дистанционного обучения Mirapolis LMS!"));
+        });
+    }
 }
